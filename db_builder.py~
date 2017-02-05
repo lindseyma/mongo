@@ -7,7 +7,7 @@ d = csv.DictReader(f)
 mainDict = {}
 
 server = MongoClient('127.0.0.1')
-db = server.jl
+db = server.mongo
 server.drop_database('mongo')#clears database
 
 c = db.students
