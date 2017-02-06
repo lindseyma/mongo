@@ -8,7 +8,7 @@ mainDict = {}
 
 server = MongoClient('127.0.0.1')
 db = server.jl
-server.drop_database('mongo')#clears database
+server.drop_database('jl')#clears database
 
 c = db.students
 
