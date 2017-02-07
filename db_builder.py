@@ -10,14 +10,12 @@ server = MongoClient('127.0.0.1')
 db = server.jl
 server.drop_database('jl')#clears database
 
-c = db.students
+s = db.students
 
 for student in d: # Writes in the students
-    sDict = {}
-    sDict['id'] = int(student['id'])
-    sDict['name'] = student['name']
-    sDict['age'] = int(student['age'])
-    mainDict[sDict['id']] = sDict
+    student['id'] = int(student['id'])
+    student['age'] = int(student['age'])
+    mainDict[student['id']] = student
 
 f.close()
 
@@ -29,17 +27,29 @@ for student in mainDict:
     d = csv.DictReader(f)
 
     for course in d:
-        if int(course['id']) == sid:
-            cDict = {}
-            cDict['code'] = course['code']
-            cDict['mark'] = int(course['mark'])
-            marks.append(cDict)
+        course['id'] = int(course['id'])
+        if course['id'] == sid:
+            course['mark'] = int(course['mark'])
+            marks.append(course)
     mainDict[student]['marks'] = marks
 
-print mainDict
+f.close()
     
 for i in mainDict:
-    c.insert_one(mainDict[i]);
+    s.insert_one(mainDict[i]);
 
+f = open("teachers.csv")
+d = csv.DictReader(f)
 
+t = db.teachers
+
+for teacher in d:
+    teacher['period'] = int(teacher['period'])
+    peeps = []
+    for peep in s.find({'marks.code' : teacher['code']}):
+        peeps.append(peep['id']);
+    teacher['peeps'] = peeps
+    t.insert_one(teacher)
+
+f.close()
     
