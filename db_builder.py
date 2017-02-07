@@ -13,18 +13,33 @@ server.drop_database('jl')#clears database
 c = db.students
 
 for student in d: # Writes in the students
-    mainDict[student['id']] = student
+    sDict = {}
+    sDict['id'] = int(student['id'])
+    sDict['name'] = student['name']
+    sDict['age'] = int(student['age'])
+    mainDict[sDict['id']] = sDict
 
 f.close()
 
-f = open("courses.csv") #add grades
-d = csv.DictReader(f)
 
-for course in d:
-    for student in mainDict:
-        if mainDict[student]['id'] == course['id']:
-            mainDict[student][course['code']] = course['mark']
+for student in mainDict:
+    marks = []
+    sid = mainDict[student]['id']
+    f = open("courses.csv") #add grades
+    d = csv.DictReader(f)
 
+    for course in d:
+        if int(course['id']) == sid:
+            cDict = {}
+            cDict['code'] = course['code']
+            cDict['mark'] = int(course['mark'])
+            marks.append(cDict)
+    mainDict[student]['marks'] = marks
+
+print mainDict
+    
 for i in mainDict:
     c.insert_one(mainDict[i]);
 
+
+    
