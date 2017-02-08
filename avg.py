@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+import csv
 
 server = MongoClient('127.0.0.1')
 db=server.jl.students
@@ -8,8 +9,8 @@ ret=[]
 for student in cursor:
     total=0
     a=0
-    for course in student.courses:
-        total+=course.mark
+    for mark in student.marks:
+        total+=mark
         a+=1
     avg=total/a
     print "name: " + student.name
