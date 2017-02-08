@@ -9,10 +9,10 @@ ret=[]
 for student in cursor:
     total=0
     a=0
-    for mark in student.marks:
-        total+=mark
+    for mark in student['marks']:
+        total+=mark['mark']
         a+=1
     avg=total/a
-    print "name: " + student.name
-    print "id: " + student.id
+    print "name: " + student['name']
+    print "id: " + str(student['id'])
     print "avg: " + str(avg)
